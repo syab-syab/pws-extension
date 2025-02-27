@@ -1,0 +1,1 @@
+export const storageWordKey: string =  "private-stock-words-extension"
