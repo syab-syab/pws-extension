@@ -59,6 +59,8 @@ function IndexPopup() {
   // -- チェックの付け外しで真偽値を変える。将来的には星かハートのマークに変えたい
   // 削除ボタン
   // -- 押したら削除する。削除の前に確認を取る。
+  //    配列.filter(a => a.id !== "削除ボタンを押したid")
+  //    で新しい配列を作って格納
   // バックグラウンドでの処理
   // -- ドラッグしたワードを登録
   // -- 入力フォームにカーソルを合わせた際にお気に入りにしているワードをペーストできるようにする
@@ -73,15 +75,16 @@ function IndexPopup() {
       <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
       <br />
       <button onClick={() => addWordArr(tmpData)}>登録</button>
-      <ul>
+      {/* ↓↓popupには表示する必要ないから何か別のを考える↓↓ */}
+      <div>
         {
           JSON.parse(wordArr).map(a => {
             return (
-              <li key={a.id}>{a.word}</li>
+              <div key={a.id}>{a.word}</div>
             )
           })
         }
-      </ul>
+      </div>
     </div>
   )
 }

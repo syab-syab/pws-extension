@@ -42,6 +42,16 @@ function OptionsIndex() {
     setTmpData("")
   }
 
+  const delWord = (id: number) => {
+    // 配列をコピーしてから
+    // const tmpArr = JSON.parse(wordArr).slice()
+    // 取得したid以外の要素で新しい配列をfilterで作る
+    // const newArr = tmpArr.filter(a => a.id !== id)
+    // そしてストレージに格納
+    // setWordArr(JSON.stringify(newArr))
+    alert(`このidは ${id} です。`)
+  }
+
   return (
     <div>
       <h1>Private Word Stockの拡張機能版</h1>
@@ -49,15 +59,15 @@ function OptionsIndex() {
       <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
       <br />
       <button onClick={() => addWordArr(tmpData)}>登録</button>
-      <ul>
+      <div>
         {
           JSON.parse(wordArr).map(a => {
             return (
-              <li key={a.id}>{a.word}</li>
+              <div key={a.id}>{a.word} <button onClick={() => delWord(a.id)}>del</button></div>
             )
           })
         }
-      </ul>
+      </div>
     </div>
   )
 }
