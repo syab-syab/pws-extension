@@ -44,12 +44,13 @@ function OptionsIndex() {
 
   const delWord = (id: number) => {
     // 配列をコピーしてから
-    // const tmpArr = JSON.parse(wordArr).slice()
+    const tmpArr = JSON.parse(wordArr).slice()
     // 取得したid以外の要素で新しい配列をfilterで作る
-    // const newArr = tmpArr.filter(a => a.id !== id)
+    const newArr = tmpArr.filter(a => a.id !== id)
     // そしてストレージに格納
-    // setWordArr(JSON.stringify(newArr))
-    alert(`このidは ${id} です。`)
+    setWordArr(JSON.stringify(newArr))
+    // console.log(newArr)
+    // alert(`このidは ${id} です。`)
   }
 
   return (
