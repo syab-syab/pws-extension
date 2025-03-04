@@ -21,21 +21,22 @@ async function loadData() {
 }
 
 // ローカルに保存
-async function saveData(val: string) {
-  // 型を整形する
-  const tmpWord: Word = {
-    id: Date.now(),
-    word: val,
-    fav: false
-  }
-  const tmpArr = await storage.get(storageWordKey);
+async function saveData(newWord: Word) {
+  const words = loadData()
+  words.then((val) => {
+    // let tmpArr = JSON.parse(val)
+    let tmpArr = val
+    tmpArr.push(newWord)
+    // storage.setにawaitを付けていないせいかエラー発生
+    storage.set(storageWordKey, JSON.stringify(tmpArr))
+    console.log("データが保存されました")
+  })
+  
   // 値を格納
-  JSON.parse(tmpArr).push(tmpWord)
-  await storage.set(storageWordKey, JSON.stringify(tmpArr));
-  console.log("データが保存されました");
+  // JSON.parse(tmpArr).push(tmpWord)
+  // await storage.set(storageWordKey, JSON.stringify(tmpArr));
+  // console.log("データが保存されました");
 }
-
-
 
 // バックグラウンドでの処理
 // いずれもコンテキストメニューで
@@ -61,11 +62,22 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.contextMenus.onClicked.addListener((info) => {
   if (info.menuItemId === "copy") {
-    console.log(info.selectionText)
-    saveData(info.selectionText)
-    // addWordArr(info.selectionText)
+    console.log("copy")
+    // 型を整形する
+    const newWord: Word = {
+      id: Date.now(),
+      word: info.selectionText,
+      fav: false
+    }
+    saveData(newWord)
   } else if (info.menuItemId === "paste") {
-    const value = loadData()
-    console.log(value)
+    console.log("paste")
+    // javascriptでinputにペーストする
+    loadData().then((val) => {
+      // locadData()でもJSON.parse()やってから返してるし二度手間だが
+      // こうしないと上手く行かない
+      // console.log(JSON.parse(val))
+      console.log(val)
+    })
   }
 })
