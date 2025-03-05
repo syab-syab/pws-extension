@@ -80,6 +80,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
 // メッセージングテスト
 // コンテンツスクリプトからのinput情報
 // メッセージリスナーを設定
+// plasmoのメッセージングAPIに直す
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "inputClicked") {
     console.log("バックグラウンドで受信した<input>情報:", message.inputInfo)

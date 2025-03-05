@@ -16,18 +16,24 @@ export const config: PlasmoCSConfig = {
 
 // backgroundへinput情報送信
 // 右クリック時にメッセージを送信する例
+// plasmoのメッセージングAPIに直す
 document.addEventListener("contextmenu", (event) => {
-  const target = event.target as HTMLElement
 
-  if (target.tagName.toLowerCase() === "input") {
-    const inputInfo = {
-      value: (target as HTMLInputElement).value,
-      id: target.id,
-      // name: target.name,
-      type: (target as HTMLInputElement).type
-    }
+  const target = event.target as HTMLInputElement | HTMLTextAreaElement
 
-    // バックグラウンドにメッセージを送信
+  // textareaでもOKにする
+  if (target.tagName.toLowerCase() === "input" || "textarea") {
+    // const inputInfo = {
+    //   value: (target as HTMLInputElement).value,
+    //   id: target.id,
+    //   name: target.name,
+    // typeはテキストじゃないとダメ
+    //   type: (target as HTMLInputElement).type
+    // }
+    const inputInfo = target
+    console.log(target.value)
+
+  // バックグラウンドにメッセージを送信
     chrome.runtime.sendMessage({
       action: "inputClicked",
       inputInfo
@@ -36,6 +42,7 @@ document.addEventListener("contextmenu", (event) => {
         console.error("メッセージ送信エラー:", chrome.runtime.lastError)
       } else {
         console.log("バックグラウンドからの応答:", response)
+        inputInfo.value="成功したぞ"
       }
     })
   }
