@@ -68,6 +68,11 @@ function IndexSidePanel() {
     setWordArr(JSON.stringify(tmpArr))
   }
 
+  // コピーする関数の navigator.clipboard.writeText は
+  // 非同期っぽいので
+  // then()を付けて処理するのが良いっぽい
+  // https://developer.mozilla.org/ja/docs/Web/API/Clipboard/writeText
+
   return (
     <div
       style={{
@@ -78,6 +83,7 @@ function IndexSidePanel() {
       <h1>Private Word Stockの拡張機能版</h1>
       <hr />
       <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
+      {/* 登録するワードをお気に入りにするかどうかを選べるようにする */}
       <br />
       <button onClick={() => addWordArr(tmpData)}>登録</button>
       <div>

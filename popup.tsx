@@ -73,6 +73,7 @@ function IndexPopup() {
       <h1>Private Word Stockの拡張機能版</h1>
       <hr />
       <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
+      {/* 登録するワードをお気に入りにするかどうかを選べるようにする */}
       <br />
       <button onClick={() => addWordArr(tmpData)}>登録</button>
       {/* ↓↓popupには表示する必要ないから何か別のを考える↓↓ */}
