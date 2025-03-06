@@ -1,7 +1,8 @@
-// import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
 import { Storage } from "@plasmohq/storage"
+// なぜかエラーが出る↓のTab
+import type { Tab } from "@plasmohq/chrome"
  
 const storage = new Storage({
   area: "sync" // "local"はローカル保存、"sync"はクラウド同期
@@ -51,7 +52,20 @@ chrome.runtime.onInstalled.addListener(() => {
   })
 })
 
-chrome.contextMenus.onClicked.addListener((info) => {
+
+// [TODO]
+// ワード貼り付けで
+// コンテキストメニューの子要素に
+// お気に入り
+//    登録ワード
+//    登録ワード
+//    .....
+// 非お気に入り
+//    登録ワード
+//    登録ワード
+//    .....
+// というような感じにする
+chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
   if (info.menuItemId === "copy") {
     console.log("copy")
     // 型を整形する
@@ -61,34 +75,33 @@ chrome.contextMenus.onClicked.addListener((info) => {
       fav: false
     }
     saveData(newWord)
-  } else if (info.menuItemId === "paste") {
-    console.log("paste")
-    // [memo]
-    // コンテンツスクリプトでinput属性にカーソルを合わせた時にその情報を
-    // backgroundにメッセージングで送る
-    // そのinputタグのvalueに値を仕込めばペースト完了
-    // だと思う
-    // ちなみにtypeはtextの他にもsearchやtextareaもあるから
-    // それに対応できるようにする
-    loadData().then((val) => {
-      // loadDataで取得したローカルの情報をvalに代入してある
-      console.log(val)
+  } else if (info.menuItemId === "paste" && tab?.id) {
+    // console.log("paste")
+    // loadData().then((val) => {
+    //   console.log(val)
+    // })
+    // 対象タブでスクリプトを実行
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: modifyInputElement,
+      args: ["新しい値"] // 必要に応じて引数を渡す
+    }, (results) => {
+      if (chrome.runtime.lastError) {
+        console.error("スクリプト実行エラー:", chrome.runtime.lastError)
+      } else {
+        console.log("スクリプト実行結果:", results)
+      }
     })
   }
 })
 
-// メッセージングテスト
-// コンテンツスクリプトからのinput情報
-// メッセージリスナーを設定
-// plasmoのメッセージングAPIに直す
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "inputClicked") {
-    console.log("バックグラウンドで受信した<input>情報:", message.inputInfo)
-
-    // 必要に応じて応答を返す
-    sendResponse({ status: "success", received: message.inputInfo })
+// ページ内で実行される関数
+function modifyInputElement(newValue: string) {
+  const activeElement = document.activeElement
+  if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {
+    (activeElement as HTMLInputElement | HTMLTextAreaElement).value = newValue
+    console.log("入力欄が変更されました:", newValue)
+  } else {
+    console.log("アクティブな入力欄が見つかりませんでした")
   }
-
-  // 非同期応答を有効にする場合はtrueを返す
-  return true
-})
+}
