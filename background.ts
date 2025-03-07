@@ -38,8 +38,22 @@ async function saveData(newWord: Word) {
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
-    id: "copy",
+    id: "save-word",
     title: "ドラッグしたワードを追加",
+    // selectionでドラッグしたときだけコンテキストメニュー表示
+    contexts: ["selection"]
+  })
+  chrome.contextMenus.create({
+    id: "save-fav-word",
+    parentId: "save-word",
+    title: "お気に入りに追加",
+    // selectionでドラッグしたときだけコンテキストメニュー表示
+    contexts: ["selection"]
+  })
+  chrome.contextMenus.create({
+    id: "save-normal-word",
+    parentId: "save-word",
+    title: "普通に追加",
     // selectionでドラッグしたときだけコンテキストメニュー表示
     contexts: ["selection"]
   })
@@ -50,18 +64,41 @@ chrome.runtime.onInstalled.addListener(() => {
     // editableでinput要素にカーソルが合わさった時に発動
     contexts: ["editable"]
   })
+  chrome.contextMenus.create({
+    id: "fav-paste",
+    parentId: "paste",
+    title: "お気に入りを貼り付け",
+    // editableでinput要素にカーソルが合わさった時に発動
+    contexts: ["editable"]
+  })
+  chrome.contextMenus.create({
+    id: "normal-paste",
+    parentId: "paste",
+    title: "普通の貼り付け",
+    // editableでinput要素にカーソルが合わさった時に発動
+    contexts: ["editable"]
+  })
   loadData().then(val => {
     let tmpArr = val
     tmpArr.map(d => {
       // ここからさらにお気に入りと非お気に入りに分けたいので
       // favの有無で分ける
-      chrome.contextMenus.create({
-        id: `paste-${d.id}`,
-        parentId: "paste",
-        // 一応お気に入り階層分け実装までは★でも付けておく
-        title: `${d.word} ${d.fav ? "★" : ""}`,
-        contexts: ["editable"]
-      })
+      if (d.fav === true) {
+        chrome.contextMenus.create({
+          id: `fav-paste-${d.id}`,
+          parentId: "fav-paste",
+          // 一応お気に入り階層分け実装までは★でも付けておく
+          title: `${d.word} ${d.fav ? "★" : ""}`,
+          contexts: ["editable"]
+        })
+      } else {
+        chrome.contextMenus.create({
+          id: `normal-paste-${d.id}`,
+          parentId: "normal-paste",
+          title: `${d.word}`,
+          contexts: ["editable"]
+        })
+      }
     })
   })
 })
@@ -69,23 +106,30 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 // [TODO]
-// ワード貼り付けで
-// コンテキストメニューの子要素に
-// お気に入り
-//    登録ワード
-//    登録ワード
-//    .....
-// 非お気に入り
-//    登録ワード
-//    登録ワード
-//    .....
-// というような感じにする
+// コードをスッキリさせる
+// 細かいエラーを直す
+// storageのエラーにどう対応するかを考える
+// (syncではなくlocalじゃダメなのか、storageの容量ががいっぱいになった時の対応をどうするかなど)
+// 見えるところのスタイルを整える
+// ロゴなどの画像を完成させる
 
-const regex = /paste-[0-9]+/g
+// 10
+const regexFav = /fav-paste-[0-9]+/g
+// 13
+const regexNormal = /normal-paste-[0-9]+/g
 
 chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
-  if (info.menuItemId === "copy") {
-    console.log("copy")
+  if (info.menuItemId === "save-fav-word") {
+    console.log("save-fav-word")
+    // 型を整形する
+    const newWord: Word = {
+      id: Date.now(),
+      word: info.selectionText,
+      fav: true
+    }
+    saveData(newWord)
+  } else if(info.menuItemId === "save-normal-word") {
+    console.log("save-normal-word")
     // 型を整形する
     const newWord: Word = {
       id: Date.now(),
@@ -93,10 +137,9 @@ chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
       fav: false
     }
     saveData(newWord)
-  } else if (String(info.menuItemId).match(regex) && tab?.id) {
-    // ここからさらにお気に入りと非お気に入りに分けるにはどうするか()
-    // info.menuItemdから「paste-」を取ってid検索できるようNumberで数値にする
-    const wordId = Number(String(info.menuItemId).substring(6))
+  } else if (String(info.menuItemId).match(regexFav) && tab?.id) {
+    // お気に入り貼り付け
+    const wordId = Number(String(info.menuItemId).substring(10))
     loadData().then((val) => {
       const tmpArr = val
       // findを使ってid検索してペーストするワードを特定
@@ -105,8 +148,7 @@ chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: modifyInputElement,
-        // 必要に応じて引数を渡す
-        // args: ["新しい値"]
+        // ペーストするワードを渡す
         args: [pasteWord.word]
       }, (results) => {
         if (chrome.runtime.lastError) {
@@ -116,7 +158,27 @@ chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
         }
       })
     })
-
+  } else if (String(info.menuItemId).match(regexNormal) && tab?.id) {
+    // 非お気に入り貼り付け
+    const wordId = Number(String(info.menuItemId).substring(13))
+    loadData().then((val) => {
+      const tmpArr = val
+      // findを使ってid検索してペーストするワードを特定
+      const pasteWord = tmpArr.find(v => v.id == wordId)
+      // 対象タブでスクリプトを実行
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: modifyInputElement,
+        // ペーストするワードを渡す
+        args: [pasteWord.word]
+      }, (results) => {
+        if (chrome.runtime.lastError) {
+          console.error("スクリプト実行エラー:", chrome.runtime.lastError)
+        } else {
+          console.log("スクリプト実行結果:", results)
+        }
+      })
+    })
   }
 })
 
