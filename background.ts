@@ -46,11 +46,24 @@ chrome.runtime.onInstalled.addListener(() => {
   // [TODO]子要素でお気に入りのワードを列挙する
   chrome.contextMenus.create({
     id: "paste",
-    title: "ワード貼り付け",
+    title: "ワード貼り付け ▶",
     // editableでinput要素にカーソルが合わさった時に発動
     contexts: ["editable"]
   })
+  loadData().then(val => {
+    let tmpArr = val
+    tmpArr.map(d => {
+      chrome.contextMenus.create({
+        id: `paste-${d.id}`,
+        parentId: "paste",
+        title: `${d.word}`,
+        contexts: ["editable"]
+      })
+    })
+  })
+
 })
+
 
 
 // [TODO]
