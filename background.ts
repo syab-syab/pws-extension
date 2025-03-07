@@ -46,22 +46,24 @@ chrome.runtime.onInstalled.addListener(() => {
   // [TODO]子要素でお気に入りのワードを列挙する
   chrome.contextMenus.create({
     id: "paste",
-    title: "ワード貼り付け ▶",
+    title: "ワード貼り付け",
     // editableでinput要素にカーソルが合わさった時に発動
     contexts: ["editable"]
   })
   loadData().then(val => {
     let tmpArr = val
     tmpArr.map(d => {
+      // ここからさらにお気に入りと非お気に入りに分けたいので
+      // favの有無で分ける
       chrome.contextMenus.create({
         id: `paste-${d.id}`,
         parentId: "paste",
-        title: `${d.word}`,
+        // 一応お気に入り階層分け実装までは★でも付けておく
+        title: `${d.word} ${d.fav ? "★" : ""}`,
         contexts: ["editable"]
       })
     })
   })
-
 })
 
 
@@ -78,6 +80,9 @@ chrome.runtime.onInstalled.addListener(() => {
 //    登録ワード
 //    .....
 // というような感じにする
+
+const regex = /paste-[0-9]+/g
+
 chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
   if (info.menuItemId === "copy") {
     console.log("copy")
@@ -88,23 +93,30 @@ chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
       fav: false
     }
     saveData(newWord)
-  } else if (info.menuItemId === "paste" && tab?.id) {
-    // console.log("paste")
-    // loadData().then((val) => {
-    //   console.log(val)
-    // })
-    // 対象タブでスクリプトを実行
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: modifyInputElement,
-      args: ["新しい値"] // 必要に応じて引数を渡す
-    }, (results) => {
-      if (chrome.runtime.lastError) {
-        console.error("スクリプト実行エラー:", chrome.runtime.lastError)
-      } else {
-        console.log("スクリプト実行結果:", results)
-      }
+  } else if (String(info.menuItemId).match(regex) && tab?.id) {
+    // ここからさらにお気に入りと非お気に入りに分けるにはどうするか()
+    // info.menuItemdから「paste-」を取ってid検索できるようNumberで数値にする
+    const wordId = Number(String(info.menuItemId).substring(6))
+    loadData().then((val) => {
+      const tmpArr = val
+      // findを使ってid検索してペーストするワードを特定
+      const pasteWord = tmpArr.find(v => v.id == wordId)
+      // 対象タブでスクリプトを実行
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: modifyInputElement,
+        // 必要に応じて引数を渡す
+        // args: ["新しい値"]
+        args: [pasteWord.word]
+      }, (results) => {
+        if (chrome.runtime.lastError) {
+          console.error("スクリプト実行エラー:", chrome.runtime.lastError)
+        } else {
+          console.log("スクリプト実行結果:", results)
+        }
+      })
     })
+
   }
 })
 
