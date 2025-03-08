@@ -5,20 +5,10 @@ import { storageWordKey } from "~variables/storageWordKey"
 
 function OptionsIndex() {
   // storageに配列を格納するテスト
-  const words =  [
+  const words = [ 
     {
       id: 1,
-      word: "challenge1",
-      fav: false
-    },
-    {
-      id: 2,
-      word: "challenge2",
-      fav: false
-    },
-    {
-      id: 3,
-      word: "challenge3",
+      word: "Welcome!",
       fav: false
     },
   ]

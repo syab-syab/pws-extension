@@ -10,6 +10,9 @@ const storage = new Storage({
 
 // 二つともPromiseオブジェクト
 // ローカルデータ読み込み
+// 初期状態(ローカルに値無し)だとこの関数でエラーが出るので直す
+// おそらく、popupとoptionsとsidepanelで
+// 初期状態の時に初期値が格納されていないからエラーが起きた
 async function loadData() {
   const value = await storage.get(storageWordKey);
   // 配列をコピーしてから

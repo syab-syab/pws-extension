@@ -6,23 +6,14 @@ import { storageWordKey } from "~variables/storageWordKey"
 function IndexPopup() {
 
   // storageに配列を格納するテスト
-  const words =  [
+  const words = [ 
     {
       id: 1,
-      word: "challenge1",
-      fav: false
-    },
-    {
-      id: 2,
-      word: "challenge2",
-      fav: false
-    },
-    {
-      id: 3,
-      word: "challenge3",
+      word: "Welcome!",
       fav: false
     },
   ]
+
   // useStorageの第二引数は初期値で、すでにstorageに値がある場合は無視されるっぽい
   const [wordArr, setWordArr] = useStorage<string>(storageWordKey, JSON.stringify(words))
   const [tmpData, setTmpData] = useState<string>("")
