@@ -26,6 +26,8 @@ function OptionsIndex() {
   // useStorageの第二引数は初期値で、すでにstorageに値がある場合は無視されるっぽい
   const [wordArr, setWordArr] = useStorage<string>(storageWordKey, JSON.stringify(words))
   const [tmpData, setTmpData] = useState<string>("")
+  // お気に入り登録するかどうかは真偽値の方が良いかもしれんがとりあえず
+  const [propFav, setPropFav] = useState<string>("normal")
 
   // ワード追加
   const addWordArr = (val: string) => {
@@ -35,12 +37,15 @@ function OptionsIndex() {
     const tmpWord: Word = {
       id: Date.now(),
       word: val,
-      fav: false
+      fav: propFav === "fav" ? true : false
     }
     // 値を格納
     tmpArr.push(tmpWord)
     setWordArr(JSON.stringify(tmpArr))
     setTmpData("")
+    // sidepanelとoptionsは状態の初期化とアラートは不要
+    // setPropFav("normal")
+    // alert(`${val}: ${tmpWord.fav ? "お気に入り" : ""}登録完了`)
   }
 
   // ワード削除
@@ -73,7 +78,11 @@ function OptionsIndex() {
       <h1>Private Word Stockの拡張機能版</h1>
       <hr />
       <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
-      {/* 登録するワードをお気に入りにするかどうかを選べるようにする */}
+      <br />
+      <select name="" id="" onChange={(e) => setPropFav(e.target.value)}>
+        <option value="normal">普通に登録</option>
+        <option value="fav">お気に入り登録</option>
+      </select>
       <br />
       <button onClick={() => addWordArr(tmpData)}>登録</button>
       <div>
@@ -90,6 +99,7 @@ function OptionsIndex() {
                   onChange={() => toggleFav(a.id)}
                 />
                 {a.word} 
+                {/* コピー機能を付ける */}
                 <button onClick={() => delWord(a.id)}>del</button>
               </div>
             )

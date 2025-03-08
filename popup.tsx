@@ -3,8 +3,6 @@ import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
 
-// export const localKeyWords: string =  "private-stock-words-extension"
-
 function IndexPopup() {
 
   // storageに配列を格納するテスト
@@ -28,6 +26,8 @@ function IndexPopup() {
   // useStorageの第二引数は初期値で、すでにstorageに値がある場合は無視されるっぽい
   const [wordArr, setWordArr] = useStorage<string>(storageWordKey, JSON.stringify(words))
   const [tmpData, setTmpData] = useState<string>("")
+  // お気に入り登録するかどうかは真偽値の方が良いかもしれんがとりあえず
+  const [propFav, setPropFav] = useState<string>("normal")
 
   const addWordArr = (val: string) => {
     // 配列をコピーしてから
@@ -36,12 +36,14 @@ function IndexPopup() {
     const tmpWord: Word = {
       id: Date.now(),
       word: val,
-      fav: false
+      fav: propFav === "fav" ? true : false
     }
     // 値を格納
     tmpArr.push(tmpWord)
     setWordArr(JSON.stringify(tmpArr))
     setTmpData("")
+    setPropFav("normal")
+    alert(`${val}: ${tmpWord.fav ? "お気に入り" : ""}登録完了`)
   }
 
   // ローカルに格納するには文字列にする->JSON.stringify()
@@ -73,19 +75,14 @@ function IndexPopup() {
       <h1>Private Word Stockの拡張機能版</h1>
       <hr />
       <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
-      {/* 登録するワードをお気に入りにするかどうかを選べるようにする */}
+      <br />
+      <select name="" id="" onChange={(e) => setPropFav(e.target.value)}>
+        <option value="normal">普通に登録</option>
+        <option value="fav">お気に入り登録</option>
+      </select>
       <br />
       <button onClick={() => addWordArr(tmpData)}>登録</button>
-      {/* ↓↓popupには表示する必要ないから何か別のを考える↓↓ */}
-      <div>
-        {
-          JSON.parse(wordArr).map(a => {
-            return (
-              <div key={a.id}>{a.word}</div>
-            )
-          })
-        }
-      </div>
+
     </div>
   )
 }
