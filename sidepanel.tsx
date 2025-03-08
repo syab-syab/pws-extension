@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
@@ -32,8 +31,6 @@ function IndexSidePanel() {
     setWordArr(JSON.stringify(tmpArr))
     setTmpData("")
     // sidepanelとoptionsは状態の初期化とアラートは不要
-    // setPropFav("normal")
-    // alert(`${val}: ${tmpWord.fav ? "お気に入り" : ""}登録完了`)
   }
 
   // options, sidepanel共通
@@ -43,10 +40,8 @@ function IndexSidePanel() {
     const tmpArr = JSON.parse(wordArr).slice()
     // 取得したid以外の要素で新しい配列をfilterで作る
     const newArr = tmpArr.filter(a => a.id !== id)
-    // そしてストレージに格納
+    // ストレージに格納
     setWordArr(JSON.stringify(newArr))
-    // console.log(newArr)
-    // alert(`このidは ${id} です。`)
   }
 
   // options, sidepanel共通
@@ -63,17 +58,20 @@ function IndexSidePanel() {
     setWordArr(JSON.stringify(tmpArr))
   }
 
-  // コピーする関数の navigator.clipboard.writeText は
-  // 非同期っぽいので
-  // then()を付けて処理するのが良いっぽい
-  // でもchromeなら必要無いっぽい？
-  // https://developer.mozilla.org/ja/docs/Web/API/Clipboard/writeText
-
   // コピー関数
   const copyWord = (val: string) => {
     navigator.clipboard.writeText(val)
   }
 
+
+  // シングルカラム(一列)
+  // お気に入りチェックボックスを星かハートにする
+  // コピーと削除ボタンはアイコンを使う
+  // 保存したワードが長すぎる場合に備えて
+  // 長い文は省略して表示して
+  // マウスオーバーした時に全文表示
+  // ヘッダーをWebアプリ版pwsのような感じにする
+  // (ただし、ウクライナの国旗っぽさがあるので色合いは変更する)
   return (
     <div
       style={{

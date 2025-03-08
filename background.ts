@@ -8,11 +8,8 @@ const storage = new Storage({
   area: "sync" // "local"はローカル保存、"sync"はクラウド同期
 });
 
-// 二つともPromiseオブジェクト
+// Promiseオブジェクト
 // ローカルデータ読み込み
-// 初期状態(ローカルに値無し)だとこの関数でエラーが出るので直す
-// おそらく、popupとoptionsとsidepanelで
-// 初期状態の時に初期値が格納されていないからエラーが起きた
 async function loadData() {
   const value = await storage.get(storageWordKey);
   // return JSON.parse(value)
@@ -21,17 +18,13 @@ async function loadData() {
   } else {
     return []
   }
-  // 配列をコピーしてから
-  // const tmpArr = JSON.parse(value).slice()
-  // return tmpArr
-
 }
 
+// Promiseオブジェクト
 // ローカルに保存
 async function saveData(newWord: Word) {
   const words = loadData()
   words.then((val) => {
-    // ここはslice()でコピーした方がいいかも
     let tmpArr = val
     // 新しいワードを追加
     tmpArr.push(newWord)
@@ -43,8 +36,8 @@ async function saveData(newWord: Word) {
 }
 
 // コンテキストメニューで
-// ドラッグしたワードを登録(クリア)
-// 入力フォームにカーソルを合わせた際にお気に入りにしているワードをペーストできるようにする
+// ドラッグしたワードを登録
+// 入力フォームにカーソルを合わせた際にお気に入りにしているワードをペースト
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
@@ -57,17 +50,15 @@ chrome.runtime.onInstalled.addListener(() => {
     id: "save-fav-word",
     parentId: "save-word",
     title: "お気に入りに追加",
-    // selectionでドラッグしたときだけコンテキストメニュー表示
     contexts: ["selection"]
   })
   chrome.contextMenus.create({
     id: "save-normal-word",
     parentId: "save-word",
     title: "普通に追加",
-    // selectionでドラッグしたときだけコンテキストメニュー表示
     contexts: ["selection"]
   })
-  // [TODO]子要素でお気に入りのワードを列挙する
+  // 子要素でお気に入りのワードを列挙する
   chrome.contextMenus.create({
     id: "paste",
     title: "ワード貼り付け",
@@ -78,14 +69,12 @@ chrome.runtime.onInstalled.addListener(() => {
     id: "fav-paste",
     parentId: "paste",
     title: "お気に入りを貼り付け",
-    // editableでinput要素にカーソルが合わさった時に発動
     contexts: ["editable"]
   })
   chrome.contextMenus.create({
     id: "normal-paste",
     parentId: "paste",
     title: "普通の貼り付け",
-    // editableでinput要素にカーソルが合わさった時に発動
     contexts: ["editable"]
   })
   loadData().then(val => {
@@ -97,7 +86,6 @@ chrome.runtime.onInstalled.addListener(() => {
         chrome.contextMenus.create({
           id: `fav-paste-${d.id}`,
           parentId: "fav-paste",
-          // 一応お気に入り階層分け実装までは★でも付けておく
           title: `${d.word}`,
           contexts: ["editable"]
         })
@@ -116,7 +104,6 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 // [TODO]
-// 1. コードをスッキリさせる
 // 2. 細かいエラーを直す
 // 3. storageのエラーにどう対応するかを考える
 //    (syncではなくlocalじゃダメなのか、storageの容量ががいっぱいになった時の対応をどうするかなど)
@@ -193,6 +180,7 @@ chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
 })
 
 // ページ内で実行される関数
+// console.logの部分要らないかも
 function modifyInputElement(newValue: string) {
   const activeElement = document.activeElement
   if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {

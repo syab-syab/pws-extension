@@ -31,8 +31,6 @@ function OptionsIndex() {
     setWordArr(JSON.stringify(tmpArr))
     setTmpData("")
     // sidepanelとoptionsは状態の初期化とアラートは不要
-    // setPropFav("normal")
-    // alert(`${val}: ${tmpWord.fav ? "お気に入り" : ""}登録完了`)
   }
 
   // options, sidepanel共通
@@ -42,10 +40,8 @@ function OptionsIndex() {
     const tmpArr = JSON.parse(wordArr).slice()
     // 取得したid以外の要素で新しい配列をfilterで作る
     const newArr = tmpArr.filter(a => a.id !== id)
-    // そしてストレージに格納
+    // ストレージに格納
     setWordArr(JSON.stringify(newArr))
-    // console.log(newArr)
-    // alert(`このidは ${id} です。`)
   }
 
   // options, sidepanel共通
@@ -67,6 +63,15 @@ function OptionsIndex() {
     navigator.clipboard.writeText(val)
   }
 
+
+  // シングルカラム(一列)
+  // お気に入りチェックボックスを星かハートにする
+  // コピーと削除ボタンはアイコンを使う
+  // 保存したワードが長すぎる場合に備えて
+  // 長い文は省略して表示して
+  // マウスオーバーした時に全文表示
+  // ヘッダーをWebアプリ版pwsのような感じにする
+  // (ただし、ウクライナの国旗っぽさがあるので色合いは変更する)
   return (
     <div>
       <h1>Private Word Stockの拡張機能版</h1>
