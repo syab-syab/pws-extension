@@ -1,9 +1,17 @@
 import { useState } from "react"
+import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
 
 function IndexSidePanel() {
+
+  // テスト1
+  // const storage = new Storage({
+  //   area: "sync" // "local"はローカル保存、"sync"はクラウド同期
+  // });
+
+  // popup, options, sidepanel共通
   // storageに配列を格納するテスト
   const words = [ 
     {
@@ -13,13 +21,17 @@ function IndexSidePanel() {
     },
   ]
 
+  // テスト2
+  // await storage.set(storageWordKey, JSON.stringify(words))
+
+  // popup, options, sidepanel共通
   // useStorageの第二引数は初期値で、すでにstorageに値がある場合は無視されるっぽい
   const [wordArr, setWordArr] = useStorage<string>(storageWordKey, JSON.stringify(words))
   const [tmpData, setTmpData] = useState<string>("")
   // お気に入り登録するかどうかは真偽値の方が良いかもしれんがとりあえず
   const [propFav, setPropFav] = useState<string>("normal")
 
-
+  // popup, options, sidepanel共通
   // ワード追加
   const addWordArr = (val: string) => {
     // 配列をコピーしてから
@@ -39,6 +51,7 @@ function IndexSidePanel() {
     // alert(`${val}: ${tmpWord.fav ? "お気に入り" : ""}登録完了`)
   }
 
+  // options, sidepanel共通
   // ワード削除
   const delWord = (id: number) => {
     // 配列をコピーしてから
@@ -51,6 +64,7 @@ function IndexSidePanel() {
     // alert(`このidは ${id} です。`)
   }
 
+  // options, sidepanel共通
   // お気に入り編集
   const toggleFav = (id: number) => {
     // 配列をコピーしてから
