@@ -1,28 +1,12 @@
 import { useState } from "react"
-// import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
 
 function IndexPopup() {
 
-  // テスト1
-  // const storage = new Storage({
-  //   area: "sync" // "local"はローカル保存、"sync"はクラウド同期
-  // });
-
   // popup, options, sidepanel共通
-  // storageに配列を格納するテスト
-  const words = [ 
-    {
-      id: 1,
-      word: "Welcome!",
-      fav: false
-    },
-  ]
-
-  // テスト2
-  // await storage.set(storageWordKey, JSON.stringify(words))
+  const words = []
 
   // popup, options, sidepanel共通
   // useStorageの第二引数は初期値で、すでにstorageに値がある場合は無視されるっぽい

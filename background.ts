@@ -15,9 +15,16 @@ const storage = new Storage({
 // 初期状態の時に初期値が格納されていないからエラーが起きた
 async function loadData() {
   const value = await storage.get(storageWordKey);
+  // return JSON.parse(value)
+  if (value) {
+    return JSON.parse(value)
+  } else {
+    return []
+  }
   // 配列をコピーしてから
   // const tmpArr = JSON.parse(value).slice()
-  return JSON.parse(value)
+  // return tmpArr
+
 }
 
 // ローカルに保存
@@ -109,16 +116,16 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 // [TODO]
-// コードをスッキリさせる
-// 細かいエラーを直す
-// storageのエラーにどう対応するかを考える
-// (syncではなくlocalじゃダメなのか、storageの容量ががいっぱいになった時の対応をどうするかなど)
-// 見えるところのスタイルを整える
-// ロゴなどの画像を完成させる
+// 1. コードをスッキリさせる
+// 2. 細かいエラーを直す
+// 3. storageのエラーにどう対応するかを考える
+//    (syncではなくlocalじゃダメなのか、storageの容量ががいっぱいになった時の対応をどうするかなど)
+// 4. 見えるところのスタイルを整える
+// 5. ロゴなどの画像を完成させる
 
-// 10
+// コンテキストメニューのidからwordのidを抜く正規表現1(substringの値は10)
 const regexFav = /fav-paste-[0-9]+/g
-// 13
+// コンテキストメニューのidからwordのidを抜く正規表現2(substringの値は13)
 const regexNormal = /normal-paste-[0-9]+/g
 
 chrome.contextMenus.onClicked.addListener((info, tab: Tab | undefined) => {
