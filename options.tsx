@@ -73,6 +73,11 @@ function OptionsIndex() {
     setWordArr(JSON.stringify(tmpArr))
   }
 
+  // コピー関数
+  const copyWord = (val: string) => {
+    navigator.clipboard.writeText(val)
+  }
+
   return (
     <div>
       <h1>Private Word Stockの拡張機能版</h1>
@@ -99,7 +104,7 @@ function OptionsIndex() {
                   onChange={() => toggleFav(a.id)}
                 />
                 {a.word} 
-                {/* コピー機能を付ける */}
+                <button onClick={() => copyWord(a.word)}>コピー</button> | 
                 <button onClick={() => delWord(a.id)}>del</button>
               </div>
             )

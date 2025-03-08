@@ -77,7 +77,13 @@ function IndexSidePanel() {
   // コピーする関数の navigator.clipboard.writeText は
   // 非同期っぽいので
   // then()を付けて処理するのが良いっぽい
+  // でもchromeなら必要無いっぽい？
   // https://developer.mozilla.org/ja/docs/Web/API/Clipboard/writeText
+
+  // コピー関数
+  const copyWord = (val: string) => {
+    navigator.clipboard.writeText(val)
+  }
 
   return (
     <div
@@ -110,7 +116,7 @@ function IndexSidePanel() {
                   onChange={() => toggleFav(a.id)}
                 />
                 {a.word} 
-                {/* コピー機能を付ける */}
+                <button onClick={() => copyWord(a.word)}>コピー</button> | 
                 <button onClick={() => delWord(a.id)}>del</button>
               </div>
             )

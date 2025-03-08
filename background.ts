@@ -88,7 +88,7 @@ chrome.runtime.onInstalled.addListener(() => {
           id: `fav-paste-${d.id}`,
           parentId: "fav-paste",
           // 一応お気に入り階層分け実装までは★でも付けておく
-          title: `${d.word} ${d.fav ? "★" : ""}`,
+          title: `${d.word}`,
           contexts: ["editable"]
         })
       } else {
