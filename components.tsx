@@ -1,0 +1,1 @@
+// ここにstyled-componentsのパーツを定義しておく
