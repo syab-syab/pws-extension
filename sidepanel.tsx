@@ -3,6 +3,8 @@ import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
 import { Header } from "~components/header"
+import { AddWordForm } from "~components/addWordForm"
+import { WordItem } from "~components/wordItem"
 
 function IndexSidePanel() {
 
@@ -76,32 +78,26 @@ function IndexSidePanel() {
   return (
     <>
       <Header />
-      <hr />
-      <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
-      <br />
-      <select name="" id="" onChange={(e) => setPropFav(e.target.value)}>
-        <option value="normal">普通に登録</option>
-        <option value="fav">お気に入り登録</option>
-      </select>
-      <br />
-      <button onClick={() => addWordArr(tmpData)}>登録</button>
+      <AddWordForm
+        onChangeTextArea={setTmpData}
+        textAreaValue={tmpData}
+        onChangeSelect={setPropFav}
+        onClickSubscribeBtn={addWordArr}
+        subscribeValue={tmpData}
+      />
       <div>
         {
           JSON.parse(wordArr).map(a => {
             return (
-              <div
+              // 基本一列にする
+              <WordItem
                 key={a.id}
-                style={{ background: a.fav ? "#ff7f50" : "#c0c0c0"}}
-              >
-                <input
-                  type="checkbox"
-                  checked={a.fav}
-                  onChange={() => toggleFav(a.id)}
-                />
-                {a.word} 
-                <button onClick={() => copyWord(a.word)}>コピー</button> | 
-                <button onClick={() => delWord(a.id)}>del</button>
-              </div>
+                word={a.word}
+                isFav={a.fav}
+                onChangeFav={toggleFav}
+                onClickCopy={copyWord}
+                onClickDel={delWord}
+              />
             )
           })
         }

@@ -3,6 +3,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
 import { Header } from "~components/header"
+import { AddWordForm } from "~components/addWordForm"
 
 function IndexPopup() {
 
@@ -38,24 +39,19 @@ function IndexPopup() {
   // ローカルに格納するには文字列にする->JSON.stringify()
   // ローカルから取り出すには文字列から解凍する->JSON.parse()
 
-
-  // 中央寄せ
-  // ヘッダーをWebアプリ版pwsのような感じにする
-  // (ただし、ウクライナの国旗っぽさがあるので色合いは変更する)
   return (
-    <>
+    // ポップアップの大きさは後ほど修正
+    <div style={{width: "30rem"}}>
       {/* <h1>Private Word Stockの拡張機能版</h1> */}
       <Header />
-      <hr />
-      <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
-      <br />
-      <select name="" id="" onChange={(e) => setPropFav(e.target.value)}>
-        <option value="normal">普通に登録</option>
-        <option value="fav">お気に入り登録</option>
-      </select>
-      <br />
-      <button onClick={() => addWordArr(tmpData)}>登録</button>
-    </>
+      <AddWordForm
+        onChangeTextArea={setTmpData}
+        textAreaValue={tmpData}
+        onChangeSelect={setPropFav}
+        onClickSubscribeBtn={addWordArr}
+        subscribeValue={tmpData}
+      />
+    </div>
   )
 }
 

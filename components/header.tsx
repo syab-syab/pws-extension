@@ -1,6 +1,8 @@
 import styled from "styled-components"
 import pwsImage from "data-base64:~assets/pws-image.png"
 
+// popup, sidepanel, optionsで適宜画面に合わせられるように調整する
+
 export const Wrapper = styled.header`
   background: #003C8D;
   color: white;
@@ -14,6 +16,7 @@ export const TitleWrapper = styled.div`
     background-color: #184b91;
     margin: 0 auto;
     position: relative;
+    text-align: center;
     @media (max-width: 700px) {
       width: 50%;
     }

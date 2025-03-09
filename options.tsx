@@ -4,6 +4,7 @@ import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
 import { Header } from "~components/header"
 import { AddWordForm } from "~components/addWordForm"
+import { WordItem } from "~components/wordItem"
 
 function OptionsIndex() {
 
@@ -76,33 +77,28 @@ function OptionsIndex() {
   // (ただし、ウクライナの国旗っぽさがあるので色合いは変更する)
   return (
     <>
-      {/* <h1>Private Word Stockの拡張機能版</h1> */}
       <Header />
-      {/* <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} /> */}
       <AddWordForm
         onChangeTextArea={setTmpData}
         textAreaValue={tmpData}
         onChangeSelect={setPropFav}
+        onClickSubscribeBtn={addWordArr}
+        subscribeValue={tmpData}
       />
-      <br />
-      <button onClick={() => addWordArr(tmpData)}>登録</button>
       <div>
       {
           JSON.parse(wordArr).map(a => {
             return (
-              <div
+              // 基本二列にする
+              <WordItem
                 key={a.id}
-                style={{ background: a.fav ? "#ff7f50" : "#c0c0c0"}}
-              >
-                <input
-                  type="checkbox"
-                  checked={a.fav}
-                  onChange={() => toggleFav(a.id)}
-                />
-                {a.word} 
-                <button onClick={() => copyWord(a.word)}>コピー</button> | 
-                <button onClick={() => delWord(a.id)}>del</button>
-              </div>
+                word={a.word}
+                isFav={a.fav}
+                onChangeFav={toggleFav}
+                onClickCopy={copyWord}
+                onClickDel={delWord}
+              />
+
             )
           })
         }
