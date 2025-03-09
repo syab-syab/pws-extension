@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
+import { Header } from "~components/header"
 
 function IndexPopup() {
 
@@ -42,11 +43,9 @@ function IndexPopup() {
   // ヘッダーをWebアプリ版pwsのような感じにする
   // (ただし、ウクライナの国旗っぽさがあるので色合いは変更する)
   return (
-    <div
-      style={{
-        padding: 16
-      }}>
-      <h1>Private Word Stockの拡張機能版</h1>
+    <>
+      {/* <h1>Private Word Stockの拡張機能版</h1> */}
+      <Header />
       <hr />
       <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
       <br />
@@ -56,8 +55,7 @@ function IndexPopup() {
       </select>
       <br />
       <button onClick={() => addWordArr(tmpData)}>登録</button>
-
-    </div>
+    </>
   )
 }
 

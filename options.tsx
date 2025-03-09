@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
+import { Header } from "~components/header"
+import { AddWordForm } from "~components/addWordForm"
 
 function OptionsIndex() {
 
@@ -73,15 +75,15 @@ function OptionsIndex() {
   // ヘッダーをWebアプリ版pwsのような感じにする
   // (ただし、ウクライナの国旗っぽさがあるので色合いは変更する)
   return (
-    <div>
-      <h1>Private Word Stockの拡張機能版</h1>
-      <hr />
-      <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} />
-      <br />
-      <select name="" id="" onChange={(e) => setPropFav(e.target.value)}>
-        <option value="normal">普通に登録</option>
-        <option value="fav">お気に入り登録</option>
-      </select>
+    <>
+      {/* <h1>Private Word Stockの拡張機能版</h1> */}
+      <Header />
+      {/* <input onChange={(e) => setTmpData(e.target.value)} value={tmpData} /> */}
+      <AddWordForm
+        onChangeTextArea={setTmpData}
+        textAreaValue={tmpData}
+        onChangeSelect={setPropFav}
+      />
       <br />
       <button onClick={() => addWordArr(tmpData)}>登録</button>
       <div>
@@ -105,7 +107,7 @@ function OptionsIndex() {
           })
         }
       </div>
-    </div>
+    </>
   )
 }
 
