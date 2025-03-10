@@ -1,8 +1,8 @@
 // 登録したワードをリストにする
-// import React from 'react'
 import styled from "styled-components"
-// import Tooltip from '@mui/material/Tooltip';
-// import DeleteIcon from '@mui/icons-material/Delete';
+import copyIcon from "data-base64:~assets/copy-64.svg"
+import delIcon from "data-base64:~assets/del-64.svg"
+
 
 const Wrapper = styled.div`
   vertical-align: middle;
@@ -29,7 +29,9 @@ const Item = styled.div`
   font-size: 3rem;
 `
 
-const WordItemDelBtn = styled.div`
+// WordItemCopyBtn
+
+const WordItemCopyBtn = styled.div`
   flex-grow: 1;
   border-right: 0.3rem black solid;
 `
@@ -58,7 +60,8 @@ const WordItemSpace = styled.div<{$isFav?: any}>`
   }
 `
 
-const WordItemCopyBtn = styled.div`
+// WordItemDelBtn
+const WordItemDelBtn = styled.div`
   & {
     flex-grow: 1;
     border-left: 0.3rem black solid;    
@@ -72,6 +75,11 @@ const WordItemCopyBtn = styled.div`
 
 `
 
+export const Image = styled.img`
+  width: 2rem;
+  height: 7rem;
+`
+
 type Props = {
   itemIndex: number,
   word: string,
@@ -82,6 +90,9 @@ type Props = {
   onClickDel: (id: number) => void,
   delId: number
 }
+
+// muiはエラーが出てめんどいから
+// 別のを使う
 
 export const WordItem = (props: Props) => {
   return (
@@ -96,22 +107,21 @@ export const WordItem = (props: Props) => {
           onChange={() => props.onChangeFav(props.changeFavId)}
         />
         {/* styled-componentsとMUIを共存させることができない */}
-        {/* <Tooltip title={<h1>Delete</h1>}> */}
-          <WordItemDelBtn onClick={() => props.onClickDel(props.delId)}>
-            D
-            {/* <DeleteIcon fontSize='large' /> */}
-          </WordItemDelBtn>                
+        {/* <Tooltip title={<h1>Copy</h1>} arrow> */}
+          <WordItemCopyBtn onClick={() => props.onClickCopy(props.word)}>
+            <Image src={copyIcon} alt="" />
+          </WordItemCopyBtn>
         {/* </Tooltip> */}
         {/* <Tooltip title={<h1>{props.word}</h1>} arrow> */}
           <WordItemSpace $isFav={props.isFav}>
             {props.word}
           </WordItemSpace>
         {/* </Tooltip> */}
-        {/* <Tooltip title={<h1>Copy</h1>} arrow> */}
-          <WordItemCopyBtn onClick={() => props.onClickCopy(props.word)}>
-            C
-            {/* <ContentCopyIcon fontSize='large' /> */}
-          </WordItemCopyBtn>
+
+        {/* <Tooltip title={<h1>Delete</h1>}> */}
+          <WordItemDelBtn onClick={() => props.onClickDel(props.delId)}>
+            <Image src={delIcon} alt="" />
+          </WordItemDelBtn>
         {/* </Tooltip> */}
       </Item>
     </Wrapper>

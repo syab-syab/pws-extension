@@ -66,7 +66,6 @@ function IndexSidePanel() {
     navigator.clipboard.writeText(val)
   }
 
-
   // シングルカラム(一列)
   // お気に入りチェックボックスを星かハートにする
   // コピーと削除ボタンはアイコンを使う
