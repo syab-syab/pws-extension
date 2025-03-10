@@ -4,6 +4,15 @@ import copyIcon from "data-base64:~assets/copy-64.svg"
 import delIcon from "data-base64:~assets/del-64.svg"
 
 
+// 少し丸いので四角くする
+// ボーダーは細くする
+// 少しデカいので小さくする
+// 全体的に細めにする
+// コピーのボタンにもホバーで色が変わるようにする
+// チェックボックスの位置を工夫する
+// 全て完了したら別のファイルを作成してstyled-components無しで同じ物を作り、
+// そこでツールチップなどのMUIが使える用ならそっちを使う
+
 const Wrapper = styled.div`
   vertical-align: middle;
   display: block;

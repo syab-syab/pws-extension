@@ -42,8 +42,10 @@ function IndexPopup() {
   return (
     // ポップアップの大きさは後ほど修正
     <div style={{width: "30rem"}}>
-      {/* <h1>Private Word Stockの拡張機能版</h1> */}
+      {/* ポップアップのヘッダーはそこまで大きくなくていい */}
+      {/* アイコンを表示しなくてもいいと思う */}
       <Header />
+      {/* 追加フォームはもうちょい小さくした方がいいかも */}
       <AddWordForm
         onChangeTextArea={setTmpData}
         textAreaValue={tmpData}
