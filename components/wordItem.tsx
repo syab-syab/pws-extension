@@ -29,7 +29,6 @@ const Item = styled.div`
   font-size: 3rem;
 `
 
-// WordItemCopyBtn
 
 const WordItemCopyBtn = styled.div`
   flex-grow: 1;
@@ -55,12 +54,13 @@ const WordItemSpace = styled.div<{$isFav?: any}>`
   overflow: hidden;
   flex-grow: 7;
   font-size: 2rem;
+  cursor: pointer;
   @media (max-width: 700px) {
     height: auto;
   }
 `
 
-// WordItemDelBtn
+
 const WordItemDelBtn = styled.div`
   & {
     flex-grow: 1;
@@ -77,7 +77,11 @@ const WordItemDelBtn = styled.div`
 
 export const Image = styled.img`
   width: 2rem;
-  height: 7rem;
+  height: 2rem;
+`
+
+export const Checkbox = styled.input`
+  width: 2rem;
 `
 
 type Props = {
@@ -101,28 +105,25 @@ export const WordItem = (props: Props) => {
     <Wrapper key={props.itemIndex}>
       <Item>
         {/* チェックボックスは後で修正 */}
-        <input
+        {/* <input
+          type="checkbox"
+          checked={props.isFav}
+          onChange={() => props.onChangeFav(props.changeFavId)}
+        /> */}
+        <Checkbox
           type="checkbox"
           checked={props.isFav}
           onChange={() => props.onChangeFav(props.changeFavId)}
         />
-        {/* styled-componentsとMUIを共存させることができない */}
-        {/* <Tooltip title={<h1>Copy</h1>} arrow> */}
-          <WordItemCopyBtn onClick={() => props.onClickCopy(props.word)}>
-            <Image src={copyIcon} alt="" />
-          </WordItemCopyBtn>
-        {/* </Tooltip> */}
-        {/* <Tooltip title={<h1>{props.word}</h1>} arrow> */}
-          <WordItemSpace $isFav={props.isFav}>
-            {props.word}
-          </WordItemSpace>
-        {/* </Tooltip> */}
-
-        {/* <Tooltip title={<h1>Delete</h1>}> */}
-          <WordItemDelBtn onClick={() => props.onClickDel(props.delId)}>
-            <Image src={delIcon} alt="" />
-          </WordItemDelBtn>
-        {/* </Tooltip> */}
+        <WordItemCopyBtn onClick={() => props.onClickCopy(props.word)}>
+          <Image src={copyIcon} alt="" />
+        </WordItemCopyBtn>
+        <WordItemSpace $isFav={props.isFav} onClick={() => alert(props.word)}>
+          {props.word}
+        </WordItemSpace>
+        <WordItemDelBtn onClick={() => props.onClickDel(props.delId)}>
+          <Image src={delIcon} alt="" />
+        </WordItemDelBtn>
       </Item>
     </Wrapper>
   )

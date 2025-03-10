@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import pwsImage from "data-base64:~assets/icon.png"
+import pwsImage from "data-base64:~assets/header-icon.png"
 
 // popup, sidepanel, optionsで適宜画面に合わせられるように調整する
 

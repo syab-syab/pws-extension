@@ -108,7 +108,6 @@ chrome.runtime.onInstalled.addListener(() => {
 // 3. storageのエラーにどう対応するかを考える
 //    (syncではなくlocalじゃダメなのか、storageの容量ががいっぱいになった時の対応をどうするかなど)
 // 4. 見えるところのスタイルを整える
-// 5. ロゴなどの画像を完成させる
 
 // コンテキストメニューのidからwordのidを抜く正規表現1(substringの値は10)
 const regexFav = /fav-paste-[0-9]+/g
