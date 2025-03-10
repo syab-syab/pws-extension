@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, type Key } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
 import type { Word } from "~models/Word"
 import { storageWordKey } from "~variables/storageWordKey"
@@ -39,6 +39,7 @@ function OptionsIndex() {
   // options, sidepanel共通
   // ワード削除
   const delWord = (id: number) => {
+    console.log("delWord")
     // 配列をコピーしてから
     const tmpArr = JSON.parse(wordArr).slice()
     // 取得したid以外の要素で新しい配列をfilterで作る
@@ -50,6 +51,7 @@ function OptionsIndex() {
   // options, sidepanel共通
   // お気に入り編集
   const toggleFav = (id: number) => {
+    console.log("toggleFav")
     // 配列をコピーしてから
     const tmpArr = JSON.parse(wordArr).slice()
     // 渡されたidの要素を編集する
@@ -87,16 +89,19 @@ function OptionsIndex() {
       />
       <div>
       {
-          JSON.parse(wordArr).map(a => {
+          JSON.parse(wordArr).map((a: Word) => {
             return (
               // 基本二列にする
               <WordItem
                 key={a.id}
+                itemIndex={a.id}
                 word={a.word}
                 isFav={a.fav}
                 onChangeFav={toggleFav}
+                changeFavId={a.id}
                 onClickCopy={copyWord}
                 onClickDel={delWord}
+                delId={a.id}
               />
 
             )

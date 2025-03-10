@@ -1,5 +1,8 @@
 // 登録したワードをリストにする
+// import React from 'react'
 import styled from "styled-components"
+// import Tooltip from '@mui/material/Tooltip';
+// import DeleteIcon from '@mui/icons-material/Delete';
 
 const Wrapper = styled.div`
   vertical-align: middle;
@@ -70,43 +73,42 @@ const WordItemCopyBtn = styled.div`
 `
 
 type Props = {
-  // anyの部分は後でWord型に直す
-  // key: nmber
-  key: any,
-  // word: string
-  word: any,
-  // isFav: boolean
-  isFav: any,
+  itemIndex: number,
+  word: string,
+  isFav: boolean,
   onChangeFav: (id: number) => void,
+  changeFavId: number,
   onClickCopy: (val: string) => void,
   onClickDel: (id: number) => void,
-
+  delId: number
 }
 
 export const WordItem = (props: Props) => {
   return (
     // [TODO]
     // チェックボタンが効かないので後で直す
-    <Wrapper key={props.key}>
-      <input
-        type="checkbox"
-        checked={props.isFav}
-        onChange={() => props.onChangeFav(props.key)}
-      />
+    <Wrapper key={props.itemIndex}>
       <Item>
-        {/* <Tooltip title={<h1>Delete</h1>} arrow> */}
-          <WordItemDelBtn onClick={() => props.onClickDel(props.key)}>
+        {/* チェックボックスは後で修正 */}
+        <input
+          type="checkbox"
+          checked={props.isFav}
+          onChange={() => props.onChangeFav(props.changeFavId)}
+        />
+        {/* styled-componentsとMUIを共存させることができない */}
+        {/* <Tooltip title={<h1>Delete</h1>}> */}
+          <WordItemDelBtn onClick={() => props.onClickDel(props.delId)}>
             D
             {/* <DeleteIcon fontSize='large' /> */}
           </WordItemDelBtn>                
         {/* </Tooltip> */}
-        {/* <Tooltip title={<h1>{props.itemWord}</h1>} arrow> */}
+        {/* <Tooltip title={<h1>{props.word}</h1>} arrow> */}
           <WordItemSpace $isFav={props.isFav}>
             {props.word}
           </WordItemSpace>
         {/* </Tooltip> */}
         {/* <Tooltip title={<h1>Copy</h1>} arrow> */}
-          <WordItemCopyBtn onClick={() => props.onClickCopy(props.key)}>
+          <WordItemCopyBtn onClick={() => props.onClickCopy(props.word)}>
             C
             {/* <ContentCopyIcon fontSize='large' /> */}
           </WordItemCopyBtn>

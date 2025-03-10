@@ -92,11 +92,14 @@ function IndexSidePanel() {
               // 基本一列にする
               <WordItem
                 key={a.id}
+                itemIndex={a.id}
                 word={a.word}
                 isFav={a.fav}
                 onChangeFav={toggleFav}
+                changeFavId={a.id}
                 onClickCopy={copyWord}
                 onClickDel={delWord}
+                delId={a.id}
               />
             )
           })
