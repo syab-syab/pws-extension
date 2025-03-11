@@ -41,7 +41,7 @@ function IndexPopup() {
 
   return (
     // ポップアップの大きさは後ほど修正
-    <div style={{width: "30rem"}}>
+    <div style={{width: "340px"}}>
       {/* ポップアップのヘッダーはそこまで大きくなくていい */}
       {/* アイコンを表示しなくてもいいと思う */}
       <Header />

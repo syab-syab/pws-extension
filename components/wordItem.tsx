@@ -17,7 +17,6 @@ const Wrapper = styled.div`
   vertical-align: middle;
   display: block;
   width: 100%;
-
   @media (max-width: 700px) {
     width: 100%;
   }
@@ -26,22 +25,22 @@ const Wrapper = styled.div`
 const Item = styled.div`
   background-color: #D9D9D9;
   display: flex;
-  border: 0.3rem black solid;
-  border-radius: 0.4rem;
+  border: 3px black solid;
+  border-radius: 4px;
 
   @media (max-width: 700px) {
     width: auto;
-    font-size: 3rem;
-    margin-bottom: 2rem;
+    font-size: 30px;
+    margin-bottom: 20px;
   }
-  margin: 1rem;
-  font-size: 3rem;
+  margin: 10px;
+  font-size: 30px;
 `
 
 
 const WordItemCopyBtn = styled.div`
   flex-grow: 1;
-  border-right: 0.3rem black solid;
+  border-right: 3px black solid;
 `
 
 const favColor: string = `
@@ -59,11 +58,13 @@ const WordItemSpace = styled.div<{$isFav?: any}>`
     props => props.$isFav ? favColor : normalColor
   }
   width: 0;
-  height: 4rem;
+  height: 40px;
   overflow: hidden;
   flex-grow: 7;
-  font-size: 2rem;
+  font-size: 20px;
   cursor: pointer;
+  text-align: center;
+  vertical-align: center;
   @media (max-width: 700px) {
     height: auto;
   }
@@ -73,7 +74,7 @@ const WordItemSpace = styled.div<{$isFav?: any}>`
 const WordItemDelBtn = styled.div`
   & {
     flex-grow: 1;
-    border-left: 0.3rem black solid;    
+    border-left: 3px black solid;    
   }
   &:hover {
     background: white;
@@ -85,12 +86,12 @@ const WordItemDelBtn = styled.div`
 `
 
 export const Image = styled.img`
-  width: 2rem;
-  height: 2rem;
+  width: 20px;
+  height: 20px;
 `
 
 export const Checkbox = styled.input`
-  width: 2rem;
+  width: 20px;
 `
 
 type Props = {
@@ -114,11 +115,6 @@ export const WordItem = (props: Props) => {
     <Wrapper key={props.itemIndex}>
       <Item>
         {/* チェックボックスは後で修正 */}
-        {/* <input
-          type="checkbox"
-          checked={props.isFav}
-          onChange={() => props.onChangeFav(props.changeFavId)}
-        /> */}
         <Checkbox
           type="checkbox"
           checked={props.isFav}
@@ -127,6 +123,8 @@ export const WordItem = (props: Props) => {
         <WordItemCopyBtn onClick={() => props.onClickCopy(props.word)}>
           <Image src={copyIcon} alt="" />
         </WordItemCopyBtn>
+        {/* 字数オーバーしたところを「...」にする */}
+        {/* それをaタグとかでクリックを促してアラートを仕込む */}
         <WordItemSpace $isFav={props.isFav} onClick={() => alert(props.word)}>
           {props.word}
         </WordItemSpace>

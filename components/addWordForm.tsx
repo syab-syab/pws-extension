@@ -5,56 +5,44 @@ import styled from "styled-components"
 const Wrapper = styled.div`
   background-color: #D9D9D9;
   color: black;
-  padding: 2rem 2rem 2rem;
-  @media (max-width: 1000px) {
-    width: 70%;
-  }
-  @media (max-width: 800px) {
-    width: 80%;
-  }
-  @media (max-width: 700px) {
-    width: 90%;
-  }
-  @media (max-width: 500px) {
-    width: 95%;
-    padding: 3rem 1rem 4rem;
-}
+  padding: 20px 20px 1px;
+
 `
 
 const TextArea = styled.textarea`
   appearance: auto;
   background-color: #D9D9D9;
   width: 100%;
-  font-size: 2rem;
-  height: 2rem;
+  font-size: 20px;
+  height: 20px;
   resize: none;
-  border: 0.1rem solid black;
+  border: 1px solid black;
   text-align: center;
 `
 
 const SelectCategory = styled.select`
-  margin-top: 0.5rem;
+  margin-top: 5px;
   background-color: #D9D9D9;
   text-align: center;
-  font-size: 2rem;
+  font-size: 20px;
   width: 100%;
   @media (max-width: 700px) {
     width: 100%;
 
-    margin-bottom: 2rem;
+    margin-bottom: 20px;
   }
 `
 
 const BtnWrapper = styled.div`
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 2px;
 `
 
 const SubscribeBtn = styled.div`
   background-color: #003C8D;
-  font-size: 2rem;
+  font-size: 20px;
   color: white;
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 `
 
 type Props = {
