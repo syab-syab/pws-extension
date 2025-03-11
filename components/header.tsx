@@ -4,7 +4,8 @@ import pwsImage from "data-base64:~assets/header-icon.png"
 // popup, sidepanel, optionsで適宜画面に合わせられるように調整する
 // popupとsidepanelのみで使用した方が良いかも(その場合ロゴかタイトルのどちらかを非表示にする)
 
-export const Wrapper = styled.header`
+// headerタグよりdivタグの方が良いかも
+export const Wrapper = styled.div`
   background: #003C8D;
   color: white;
 `

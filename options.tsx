@@ -38,14 +38,16 @@ function OptionsIndex() {
 
   // options, sidepanel共通
   // ワード削除
-  const delWord = (id: number) => {
-    console.log("delWord")
-    // 配列をコピーしてから
-    const tmpArr = JSON.parse(wordArr).slice()
-    // 取得したid以外の要素で新しい配列をfilterで作る
-    const newArr = tmpArr.filter(a => a.id !== id)
-    // ストレージに格納
-    setWordArr(JSON.stringify(newArr))
+  const delWord = (id: number, val: string) => {
+    if (confirm(`「${val}」を削除しますか？`)) {
+      // 配列をコピーしてから
+      const tmpArr = JSON.parse(wordArr).slice()
+      // 取得したid以外の要素で新しい配列をfilterで作る
+      const newArr = tmpArr.filter(a => a.id !== id)
+      // ストレージに格納
+      setWordArr(JSON.stringify(newArr))
+      alert(`「${val}」を削除しました。`)
+    }
   }
 
   // options, sidepanel共通
@@ -66,23 +68,29 @@ function OptionsIndex() {
   // コピー関数
   const copyWord = (val: string) => {
     navigator.clipboard.writeText(val)
+    alert(`「${val}」をコピーしました。`)
   }
 
 
-  // オプションのみツインカラムにしてもいいかも(アドブロックプラスのオプションページみたいな感じ)
+  // オプションのみツインカラムする(アドブロックプラスのオプションページみたいな感じ)
   // ヘッダーはやめて左上にロゴとアプリ名を表示する
   // 右側でワードの管理を出来るようにする(スクロールした際に左側が動かないようにする)
   return (
-    <>
-      <Header />
-      <AddWordForm
-        onChangeTextArea={setTmpData}
-        textAreaValue={tmpData}
-        onChangeSelect={setPropFav}
-        onClickSubscribeBtn={addWordArr}
-        subscribeValue={tmpData}
-      />
-      <div>
+    // display: gridでやった方が良いかも(sidebarとかadとか使えるから)
+
+    <div style={{display: "flex", margin: "10px 30px"}}>
+      <div style={{flexGrow: "1"}}>
+        <Header />
+        <AddWordForm
+          onChangeTextArea={setTmpData}
+          textAreaValue={tmpData}
+          onChangeSelect={setPropFav}
+          onClickSubscribeBtn={addWordArr}
+          subscribeValue={tmpData}
+        />
+        </div>
+      <div style={{flexGrow: "1", overflow: "scroll"}}>
+      {/* テーブルに変更する */}
       {
           JSON.parse(wordArr).map((a: Word) => {
             return (
@@ -103,7 +111,7 @@ function OptionsIndex() {
           })
         }
       </div>
-    </>
+    </div>
   )
 }
 
