@@ -30,7 +30,7 @@ const normalColor: string = `
   background: #D9D9D9;
 `
 
-const Item = styled.div<{$isFav?: boolean}>`
+const Item = styled.div<{$isFav: boolean}>`
   ${
     props => props.$isFav ? favColor : normalColor
   }
@@ -40,9 +40,6 @@ const Item = styled.div<{$isFav?: boolean}>`
   font-size: 30px;
   margin-bottom: 7px;
   font-size: 30px;
-  &:hover {
-    background: white;
-  }
 `
 
 const CheckboxWrapper = styled.div`
@@ -80,6 +77,7 @@ const WordItemSpace = styled.div<{$isFav?: boolean}>`
   text-align: center;
   vertical-align: center;
   &:hover {
+    box-shadow: inset -5px -5px 10px 0px rgba(255, 255, 255, 0.5), inset 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
     scrollbar-color: black white;
   }
 `
@@ -92,7 +90,7 @@ const WordItemDelBtn = styled.div`
     text-align: center;
   }
   &:hover {
-    background: white;
+    box-shadow: inset -5px -5px 10px 0px rgba(255, 255, 255, 0.5), inset 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
   }
   &:active {
     box-shadow: inset 0px 12px 25px 5px rgba(0, 0, 0, 0.4);
