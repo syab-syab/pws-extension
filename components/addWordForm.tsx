@@ -6,31 +6,32 @@ const Wrapper = styled.div`
   background-color: #D9D9D9;
   color: black;
   padding: 20px 20px 1px;
-
 `
 
-const TextArea = styled.textarea`
-  appearance: auto;
+const InputSelectWrapper = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`
+
+const TextInput = styled.input`
   background-color: #D9D9D9;
-  width: 100%;
   font-size: 20px;
   height: 20px;
-  resize: none;
   border: 1px solid black;
   text-align: center;
+  padding: 5px 0 5px;
+  width: 0;
+  flex-grow: 5;
 `
 
 const SelectCategory = styled.select`
-  margin-top: 5px;
+
   background-color: #D9D9D9;
   text-align: center;
   font-size: 20px;
-  width: 100%;
-  @media (max-width: 700px) {
-    width: 100%;
 
-    margin-bottom: 20px;
-  }
+  width: 0;
+  flex-grow: 5;
 `
 
 const BtnWrapper = styled.div`
@@ -57,11 +58,13 @@ type Props = {
 export const AddWordForm = (props: Props) => {
   return (
     <Wrapper>
-      <TextArea onChange={(e) => props.onChangeTextArea(e.target.value)} value={props.textAreaValue} />
-      <SelectCategory onChange={(e) => props.onChangeSelect(e.target.value)}>
-        <option value="normal">普通に登録</option>
-        <option value="fav">お気に入り登録</option>
-      </SelectCategory>
+      <InputSelectWrapper>
+        <TextInput type="text" onChange={(e) => props.onChangeTextArea(e.target.value)} value={props.textAreaValue} />
+        <SelectCategory onChange={(e) => props.onChangeSelect(e.target.value)}>
+          <option value="normal">ノーマル</option>
+          <option value="fav">お気に入り</option>
+        </SelectCategory>
+      </InputSelectWrapper>
       <BtnWrapper>
         <SubscribeBtn onClick={() => props.onClickSubscribeBtn(props.subscribeValue)}>
           登録

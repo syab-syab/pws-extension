@@ -39,13 +39,16 @@ function IndexSidePanel() {
 
   // options, sidepanel共通
   // ワード削除
-  const delWord = (id: number) => {
-    // 配列をコピーしてから
-    const tmpArr = JSON.parse(wordArr).slice()
-    // 取得したid以外の要素で新しい配列をfilterで作る
-    const newArr = tmpArr.filter(a => a.id !== id)
-    // ストレージに格納
-    setWordArr(JSON.stringify(newArr))
+  const delWord = (id: number, val: string) => {
+    if (confirm(`「${val}」を削除しますか？`)) {
+      // 配列をコピーしてから
+      const tmpArr = JSON.parse(wordArr).slice()
+      // 取得したid以外の要素で新しい配列をfilterで作る
+      const newArr = tmpArr.filter(a => a.id !== id)
+      // ストレージに格納
+      setWordArr(JSON.stringify(newArr))
+      alert(`「${val}」を削除しました。`)
+    }
   }
 
   // options, sidepanel共通
@@ -65,6 +68,7 @@ function IndexSidePanel() {
   // コピー関数
   const copyWord = (val: string) => {
     navigator.clipboard.writeText(val)
+    alert(`「${val}」をコピーしました。`)
   }
 
   // シングルカラム(一列)
@@ -81,7 +85,9 @@ function IndexSidePanel() {
         subscribeValue={tmpData}
       />
 
-      <div>
+      <div
+        style={{marginTop: "10px"}}
+      >
         {
           JSON.parse(wordArr).map(a => {
             return (
