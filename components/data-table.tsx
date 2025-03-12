@@ -11,6 +11,12 @@ const Table = styled.table`
   border: 1px solid black;
 `
 
+const Caption = styled.caption`
+  text-align: center;
+  border: 1px solid black;
+  font-size: 25px;
+`
+
 const favColor: string = `
   background: #f9e42c;
 `
@@ -29,14 +35,28 @@ const TdCheckBoxWrapper = styled.td`
 
 `
 
+const Checkbox = styled.input`
+  width: 20px;
+  height: 20px;
+`
+
 const TdContentWrapper = styled.td`
-  overflow: hidden;
+
   cursor: pointer;
   text-align: center;
   &:hover {
     box-shadow: inset -5px -5px 10px 0px rgba(255, 255, 255, 0.5), inset 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
     scrollbar-color: black white;
   }
+`
+
+// height, widthは間に合わせ
+const DivContentWrapper = styled.div`
+  height: 45px;
+  width: 300px;
+  overflow: hidden;
+  overflow-x: scroll;
+  scrollbar-width: thin;
 `
 
 const TdDelBtnWrapper = styled.td`
@@ -72,13 +92,15 @@ export const DataTable = (props: Props) => {
   return (
     <Table>
       {/* この部分に総データ数とかを表示しても良いかも */}
-      <thead>
-        <tr>
-          {/* <th scope="col" style={{ border: "1px solid black" }}>fav</th> */}
-          <th scope="col">content</th>
-          {/* <th scope="col">del</th> */}
-        </tr>
-      </thead>
+      <Caption>
+      {/* <Thead> */}
+        {/* <TrThead> */}
+          {/* <ThThead> */}
+            現在保管中のワード: {localWordData.length}
+          {/* </ThThead> */}
+        {/* </TrThead> */}
+      {/* </Thead> */}
+      </Caption>
 
       <tbody>
       {
@@ -87,7 +109,7 @@ export const DataTable = (props: Props) => {
           <TrData key={a.id} $isFav={a.fav}>
             {/* チェックボックス */}
             <TdCheckBoxWrapper>
-              <input
+              <Checkbox
                 type="checkbox"
                 checked={a.fav}
                 onChange={() => props.onChangeFav(a.id)}
@@ -96,7 +118,9 @@ export const DataTable = (props: Props) => {
 
             {/* 内容 */}
             <TdContentWrapper onClick={() => props.onClickCopy(a.word)}>
-              {a.word}
+              <DivContentWrapper>
+                {a.word}
+              </DivContentWrapper>
             </TdContentWrapper>
 
             {/* 削除ボタン */}
