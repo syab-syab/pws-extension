@@ -5,7 +5,7 @@ import { storageWordKey } from "~variables/storageWordKey"
 import { Header } from "~components/header"
 import { AddWordForm } from "~components/addWordForm"
 import { WordItem } from "~components/wordItem"
-import { Table } from "~components/data-table"
+
 
 function IndexSidePanel() {
 
@@ -71,6 +71,7 @@ function IndexSidePanel() {
     alert(`「${val}」をコピーしました。`)
   }
 
+  const localWordData = JSON.parse(wordArr)
   // シングルカラム(一列)
   return (
     <>
@@ -88,8 +89,17 @@ function IndexSidePanel() {
       <div
         style={{marginTop: "10px"}}
       >
+        <p
+          style={{
+            margin: "10px",
+            fontSize: "20px",
+            textAlign: "center"
+          }}
+        >
+          現在保管中のワード: {localWordData.length}
+        </p>
         {
-          JSON.parse(wordArr).map(a => {
+          localWordData.map((a: Word) => {
             return (
               // 基本一列にする
               <WordItem

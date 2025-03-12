@@ -1,6 +1,5 @@
-// optionsで使う予定だけど、場合によってはsidepanelでも使うかも
-// 見出しはNo(idではなく連番で1から), favのチェックボックス, 内容, コピーボタン, 削除ボタンの順番
-// muiを使えるかどうかテストする
+// optionsを廃止したのでお蔵入り
+// 消すのは惜しいので別のブランチを作って残したい
 
 import type { Word } from "~models/Word"
 import delIcon from "data-base64:~assets/del-64.svg"

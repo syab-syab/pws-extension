@@ -103,11 +103,10 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 
-// [TODO]
-// 2. 細かいエラーを直す
-// 3. storageのエラーにどう対応するかを考える
-//    (syncではなくlocalじゃダメなのか、storageの容量ががいっぱいになった時の対応をどうするかなど)
-// 4. 見えるところのスタイルを整える
+// [TODO](優先順)
+// 本番環境の準備をする(フォントサイズをremとかに直す、chromeストアの登録をする、一度ローカルのデータを消すかして初期状態で問題がないかを確かめる)
+// sidepanelに広告を掲載できるかどうかを試す
+
 
 // コンテキストメニューのidからwordのidを抜く正規表現1(substringの値は10)
 const regexFav = /fav-paste-[0-9]+/g
