@@ -98,7 +98,7 @@ const WordItemDelBtn = styled.div`
 
 `
 
-export const Image = styled.img`
+const Image = styled.img`
   width: 20px;
   height: 20px;
 `

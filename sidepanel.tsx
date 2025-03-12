@@ -5,7 +5,7 @@ import { storageWordKey } from "~variables/storageWordKey"
 import { Header } from "~components/header"
 import { AddWordForm } from "~components/addWordForm"
 import { WordItem } from "~components/wordItem"
-import { Table } from "~components/table"
+import { Table } from "~components/data-table"
 
 function IndexSidePanel() {
 

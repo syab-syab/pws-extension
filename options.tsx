@@ -5,6 +5,7 @@ import { storageWordKey } from "~variables/storageWordKey"
 import { Header } from "~components/header"
 import { AddWordForm } from "~components/addWordForm"
 import { WordItem } from "~components/wordItem"
+import { DataTable } from "~components/data-table"
 
 function OptionsIndex() {
 
@@ -78,8 +79,8 @@ function OptionsIndex() {
   return (
     // display: gridでやった方が良いかも(sidebarとかadとか使えるから)
 
-    <div style={{display: "flex", margin: "10px 30px"}}>
-      <div style={{flexGrow: "1"}}>
+    <div>
+      <div>
         <Header />
         <AddWordForm
           onChangeTextArea={setTmpData}
@@ -89,9 +90,15 @@ function OptionsIndex() {
           subscribeValue={tmpData}
         />
         </div>
-      <div style={{flexGrow: "1", overflow: "scroll"}}>
+      <div>
       {/* テーブルに変更する */}
-      {
+      <DataTable
+        wordArr={wordArr}
+        onChangeFav={toggleFav}
+        onClickCopy={copyWord}
+        onClickDel={delWord}
+      />
+      {/* {
           JSON.parse(wordArr).map((a: Word) => {
             return (
               // 基本二列にする
@@ -109,7 +116,7 @@ function OptionsIndex() {
 
             )
           })
-        }
+        } */}
       </div>
     </div>
   )
