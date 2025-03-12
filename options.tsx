@@ -79,8 +79,8 @@ function OptionsIndex() {
   return (
     // display: gridでやった方が良いかも(sidebarとかadとか使えるから)
 
-    <div>
-      <div>
+    <div style={{display: "grid"}}>
+      <div style={{gridTemplateColumns: "1fr"}}>
         <Header />
         <AddWordForm
           onChangeTextArea={setTmpData}
@@ -89,8 +89,8 @@ function OptionsIndex() {
           onClickSubscribeBtn={addWordArr}
           subscribeValue={tmpData}
         />
-        </div>
-      <div>
+      </div>
+      <div style={{gridTemplateColumns: "1fr"}}>
       {/* テーブルに変更する */}
       <DataTable
         wordArr={wordArr}

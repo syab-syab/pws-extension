@@ -89,6 +89,8 @@ export const DataTable = (props: Props) => {
   // 集計用のデータを出したいから
   const localWordData = JSON.parse(props.wordArr)
 
+  // お気に入りを降順、昇順で並び替えるボタンを実装する
+
   return (
     <Table>
       {/* この部分に総データ数とかを表示しても良いかも */}
